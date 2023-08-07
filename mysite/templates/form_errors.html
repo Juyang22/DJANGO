@@ -1,0 +1,12 @@
+<!-- 오류 표시 -->
+{% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        {% for field in form %}
+            {% if field.errors %}
+                <strong>{{field.label}}</strong>
+                {{field.errors}}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
+<!--// 오류 표시 end -->

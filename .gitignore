@@ -1,0 +1,5 @@
+*.pyc
+__init__.py
+mysite/db.sqlite3
+mysite/debug.log
+mysite/.idea/

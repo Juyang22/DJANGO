@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- pybo CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+    <title>Django_pybo</title>
+
+    <!-- Bootstrap JS -->
+    <script src="{% static 'bootstrap.min.js' %}"></script>
+
+    <!-- jQuery -->
+    <script src="{% static 'jquery-3.7.0.min.js' %}"></script>
+    <script>
+      $(document).ready(function(){
+        console.log('document ready: jquery-3.7.0.min.js');
+      });
+    </script>
+  </head>
+  <body>
+    <!-- navbar -->
+    {% include "navbar.html" %}
+
+    <!-- 기본 템플릿 안에 포함된 내용 start -->
+    {% block content %}
+
+    {% endblock %}
+    <!-- 기본 템플릿 안에 포함된 내용 end -->
+  </body>
+</html>

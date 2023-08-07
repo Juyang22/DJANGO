@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>질문 게시판</title>
+</head>
+<body>
+    {% if question_list %}
+        <ul>
+            {% for question in question_list %}
+                <li><a href="{% url 'pybo:detail' question.id %}">{{question.subject}}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>조회 데이터가 없습니다.</p>
+    {% endif %}
+</body>
+</html>
