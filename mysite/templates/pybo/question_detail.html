@@ -10,10 +10,36 @@
                 {{question.content}}
             </div>
             <!-- d-flex : Flexbox 컨테이너로 적용
-                 justify-content-end : 오른쪽 정렬   -->
+                justify-content-end : 오른쪽 정렬 -->
+
             <div class="d-flex justify-content-end">
-                {{question.create_date}}
+                <!-- 수정일자 -->
+                {% if question.modify_date %}
+                <div class="badge bg-light text-dark p-2 text-start">
+                    <div class="mb-2">수정일</div>
+                    <div>
+                        {{question.modify_date}}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="badge bg-light text-dark p-2 text-start">
+                    <div class="mb-2">{{question.author.username}}</div>
+                    <div>
+                        {{question.create_date}}
+                    </div>
+                </div>
             </div>
+
+            <!-- 질문 당사자인 경우만 버튼 보이기 -->
+            {% if request.user == question.author %}
+            <div class="my-3">
+                <a href="{% url 'pybo:question_modify' question.id %}" class="btn btn-primary btn-sm">수정</a>
+                <a href="#" class="delete btn btn-primary btn-sm"
+                    data-uri="{% url 'pybo:question_delete' question.id %}"
+                >삭제</a>
+            </div>
+            {% endif %}
         </div>
     </div>
     <!-- // card -->
@@ -21,18 +47,38 @@
     <!-- 질문에 대한 답변 -->
     <h5 class="border-bottom py-2 my-3">{{question.answer_set.count}}개의 답변이 있습니다.</h5>
             {% for answer in question.answer_set.all %}
-        <div class="card my-3">
-            <div class="card-body">
-                <div class="card-text" style="white-space: pre-line">
-                    {{answer.content}}
-                </div>
-                <div class="d-flex justify-content-end">
-                    <div class="badge bg-light text-dark p-2">
-                        {{answer.create_date}}
+            <div class="card my-3">
+                <div class="card-body">
+                    <div class="card-text" style="white-space: pre-line">
+                        {{answer.content}}
+                    </div>
+                    <!-- 수정 & 삭제 -->
+                    {% if request.user == answer.author %}
+                    <div class="my-3">
+                        <a href="{% url 'pybo:answer_modify' answer.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
+                        <a href="#" id="answer_delete" data-uri="{% url 'pybo:answer_delete' answer.id %}" class="btn btn-sm btn-outline-secondary">삭제</a>
+                    </div>
+                    {% endif %}
+
+
+                    <div class="d-flex justify-content-end">
+                        <!-- 수정일자 -->
+                        {% if question.modify_date %}
+                        <div class="badge bg-light text-dark p-2 text-start">
+                            <div class="mb-2">수정일</div>
+                            <div>{{answer.modify_date}}</div>
+                        </div>
+                        {% endif %}
+
+                        <div class="badge bg-light text-dark p-2 text-start">
+                            <div class="mb-2">{{answer.author.username}}</div>
+                            <div>
+                                {{answer.create_date}}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
             {% endfor %}
 
     <!-- 답변 등록 form -->
@@ -58,4 +104,35 @@
     </form>
     <!-- // form -->
 </div>
+
+<script>
+    $(document).ready(function(){
+        // console.log("document-----");
+        // 답변 삭제
+        $('#answer_delete').on('click', function(){
+            console.log("answer_delete");
+            url = $(this).data('uri');
+
+            if(!confirm('삭제하시겠습니까?')) return;
+
+            location.href = url;
+
+        });
+
+        // 질문 삭제
+        $('.delete').on('click', function(){
+            // console.log("delete click");
+            url = $(this).data('uri');
+                // console.log("url: " + url);
+
+            if(!confirm('삭제하시겠습니까?')) return;
+
+            // console.log("delete click");
+
+            location.href = url;
+
+        });
+
+    });  //-- document.ready end
+</script>
 {% endblock %}

@@ -20,6 +20,7 @@
                 <th class="text-center">번호</th>
                 <th class="text-center">제목</th>
                 <th class="text-center">작성일</th>
+                <th class="text-center">글쓴이</th>
             </tr>
         </thead>
         <tbody>
@@ -38,6 +39,9 @@
                         {% if question.answer_set.count > 0 %}
                             <span class="text-danger small ml-2">{{question.answer_set.count}}</span>
                         {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {{question.author.username}}  {# 글쓴이 #}
                     </td>
                     <td class="text-center">
                         {{question.create_date|date:"Y-m-d"}}
